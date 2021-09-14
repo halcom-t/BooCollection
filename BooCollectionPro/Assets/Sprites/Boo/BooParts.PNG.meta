@@ -4,10 +4,10 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 6438565821463900673
-    second: QTWI3031_0
+    second: BooArm
   - first:
       213: 6780003221555249429
-    second: QTWI3031_1
+    second: BooLeg
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -121,15 +121,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: QTWI3031_0
+      name: BooArm
       rect:
         serializedVersion: 2
         x: 197
-        y: 75
+        y: 76
         width: 22
         height: 70
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46959546, y: 0.8351615}
       border: {x: 0, y: 1, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -142,15 +142,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: QTWI3031_1
+      name: BooLeg
       rect:
         serializedVersion: 2
         x: 132
         y: 1
         width: 25
         height: 85
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.55351317, y: 0.84260935}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
