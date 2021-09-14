@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8855411509280855249}
   - component: {fileID: 8855411509280855248}
   m_Layer: 0
-  m_Name: Boo
+  m_Name: Boo01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 8855411509800806697}
   - component: {fileID: 8855411509800806694}
   m_Layer: 0
-  m_Name: BooArmL
+  m_Name: ArmL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 8855411510162316639}
   - component: {fileID: 8855411510162316636}
   m_Layer: 0
-  m_Name: BooArmR
+  m_Name: ArmR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 8855411510334622560}
   - component: {fileID: 8855411510334622561}
   m_Layer: 0
-  m_Name: BooLegL
+  m_Name: LegL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 8855411510667340208}
   - component: {fileID: 8855411510667340209}
   m_Layer: 0
-  m_Name: BooBody
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 8855411510996393660}
   - component: {fileID: 8855411510996393661}
   m_Layer: 0
-  m_Name: BooLegR
+  m_Name: LegR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
