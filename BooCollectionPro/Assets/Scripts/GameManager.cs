@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ƒQ[ƒ€‘S‘Ì‚ÌŠÇ—
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     /// <summary>
