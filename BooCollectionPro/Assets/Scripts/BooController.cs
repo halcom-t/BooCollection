@@ -7,19 +7,31 @@ using UnityEngine;
 /// </summary>
 public class BooController : MonoBehaviour
 {
-
-    Rigidbody2D rb;
-
+    /// <summary>
+    /// 可動域内にいるか
+    /// </summary>
     bool inBooArea = false;
 
+    /// <summary>
+    /// アクション間隔の計算用タイマー
+    /// </summary>
     float actionTimer = 0f;
 
+    /// <summary>
+    /// 移動スピード
+    /// </summary>
     const float Speed = 0.5f;
+
+    //コンポーネント---------------------------------
+    Rigidbody2D rb;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        //スポーン位置から左（可動域内）に移動
         rb.velocity = Vector2.left * Speed;
     }
 
@@ -28,11 +40,13 @@ public class BooController : MonoBehaviour
     {
         actionTimer += Time.deltaTime;
 
+        //可動域内＆アクション可能時間(3秒)になったら
         if (inBooArea && actionTimer>3f)
         {
+            //アクション時間リセット
             actionTimer = 0f;
 
-            // 2/3の確率で停止
+            // 2/3の確率で移動停止
             if (Random.Range(0, 3) != 0)
             {
                 rb.velocity = Vector2.zero;
@@ -40,41 +54,61 @@ public class BooController : MonoBehaviour
             }
 
             //ランダム方向に歩く
-            float x = Random.Range(-1f, 1f);
-            float y = Random.Range(-1f, 1f);
-            rb.velocity = new Vector2(x, y) * Speed;
-
-            float scaleX = Mathf.Abs(transform.localScale.x);
-            float scaleY = transform.localScale.y;
-            float scaleZ = transform.localScale.z;
-            if (x > 0)
-            {
-                transform.localScale = new Vector3(-scaleX, scaleY, scaleZ);
-            }
-            else
-            {
-                transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
-            }
-
+            RandomMove();
+            //方向転換
+            DirectionChange();
         }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "BooArea") inBooArea = true;
+        //可動域に入ったとき
+        if (collision.gameObject.tag == "BooArea")
+        {
+            inBooArea = true;
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
+        //可動域から出たとき
         if (collision.gameObject.tag == "BooArea")
         {
             inBooArea = false;
+            //可動域から出てしまったら反対方向に移動して可動域内に戻る
             this.rb.velocity *= -1;
+            //方向転換
+            DirectionChange();
+        }
+    }
 
-            float x = this.transform.localScale.x * -1;
-            float y = this.transform.localScale.y;
-            float z = this.transform.localScale.z;
-            this.transform.localScale = new Vector3(x,y,z);
+    /// <summary>
+    /// ランダムに移動処理
+    /// </summary>
+    void RandomMove()
+    {
+        float x = Random.Range(-1f, 1f);
+        float y = Random.Range(-1f, 1f);
+        this.rb.velocity = new Vector2(x, y).normalized * Speed;
+    }
+
+    /// <summary>
+    /// 方向転換
+    /// </summary>
+    void DirectionChange()
+    {
+        //現在のscale取得
+        float scaleX = Mathf.Abs(this.transform.localScale.x);
+        float scaleY = this.transform.localScale.y;
+        float scaleZ = this.transform.localScale.z;
+        //左右どちらに移動中か判定して方向転換
+        if (this.rb.velocity.x > 0)
+        {
+            transform.localScale = new Vector3(-scaleX, scaleY, scaleZ);
+        }
+        else
+        {
+            transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
         }
     }
 
