@@ -8,17 +8,30 @@ using UnityEngine;
 public class BoosManager : MonoBehaviour
 {
     /// <summary>
+    /// ブーの種類
+    /// </summary>
+    enum BooType
+    {
+        Normal, //ブー（ノーマル）
+        Kabu,   //カブ―
+
+        Count   //ブーの種類の数
+    }
+
+
+    /// <summary>
     /// ブーが出現するまでの間隔の計測用タイマー
     /// </summary>
     float intervalTimer = 0f;
     /// <summary>
-    /// 生成したブーの数
+    /// 生成したブーの種類記録用
+    /// （BooTypeをintに変換して記録する）
     /// </summary>
-    int booCounter = 0;
+    List<int> nowBoos = new List<int>();
     /// <summary>
-    /// ブーのプレファブ
+    /// ブーのプレファブ(ブーのプレファブをBooType順でセット)
     /// </summary>
-    [SerializeField] GameObject booPre;
+    [SerializeField] GameObject[] booPres = new GameObject[(int)BooType.Count];
 
 
     // Start is called before the first frame update
@@ -31,18 +44,22 @@ public class BoosManager : MonoBehaviour
     void Update()
     {
         //ブーが20匹(Max)だったらブーを生成しない
-        if (booCounter == 20) return;
+        if (nowBoos.Count >= 20) return;
 
-        //ブーを出現させるインターバル時間を計測
+        //ブーを出現させるインターバルを計測
         intervalTimer += Time.deltaTime;
-        Debug.Log(intervalTimer);
+        //Debug.Log(intervalTimer);
 
         //61秒間隔でBooを生成（出現）
-        if (intervalTimer > 61f)
+        if (intervalTimer > 6f)
         {
-            Instantiate(booPre);
+            //ブーの生成
+            int booType = (int)BooType.Normal;
+            Instantiate(booPres[booType]);
+            //生成したブーの種類を記録
+            nowBoos.Add(booType);
+            //インターバルリセット
             intervalTimer = 0f;
-            booCounter++;
         }
     }
 }

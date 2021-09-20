@@ -7,19 +7,40 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-
-
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
 
     }
 
+    /// <summary>
+    /// アプリが終了する時
+    /// </summary>
+    void OnApplicationQuit()
+    {
+        Debug.Log("終了");
+    }
+
+    /// <summary>
+    /// アプリが中断、再開（起動）される時
+    /// </summary>
+    /// <param name="pauseStatus"></param>
+    void OnApplicationPause(bool pauseStatus)
+    {
+        //一時停止
+        if (pauseStatus)
+        {
+            Debug.Log("中断");
+        }
+        //再開時（起動時）
+        else
+        {
+            Debug.Log("再開");
+        }
+    }
 
 }
