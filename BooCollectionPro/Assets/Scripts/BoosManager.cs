@@ -10,7 +10,7 @@ public class BoosManager : MonoBehaviour
     /// <summary>
     /// ブーの種類
     /// </summary>
-    enum BooType
+    public enum BooType
     {
         Normal, //ブー（ノーマル）
         Kabu,   //カブ―
@@ -22,12 +22,12 @@ public class BoosManager : MonoBehaviour
     /// <summary>
     /// ブーが出現するまでの間隔の計測用タイマー
     /// </summary>
-    float intervalTimer = 0f;
+    [System.NonSerialized] public float intervalTimer = 0f;
     /// <summary>
     /// 生成したブーの種類記録用
     /// （BooTypeをintに変換して記録する）
     /// </summary>
-    List<int> nowBoos = new List<int>();
+    [System.NonSerialized] public List<int> boos = new List<int>();
     /// <summary>
     /// ブーのプレファブ(ブーのプレファブをBooType順でセット)
     /// </summary>
@@ -44,7 +44,7 @@ public class BoosManager : MonoBehaviour
     void Update()
     {
         //ブーが20匹(Max)だったらブーを生成しない
-        if (nowBoos.Count >= 20) return;
+        if (boos.Count >= 20) return;
 
         //ブーを出現させるインターバルを計測
         intervalTimer += Time.deltaTime;
@@ -57,7 +57,7 @@ public class BoosManager : MonoBehaviour
             int booType = (int)BooType.Normal;
             Instantiate(booPres[booType]);
             //生成したブーの種類を記録
-            nowBoos.Add(booType);
+            boos.Add(booType);
             //インターバルリセット
             intervalTimer = 0f;
         }
