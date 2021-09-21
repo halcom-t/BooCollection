@@ -23,6 +23,16 @@ public class BoosManager : MonoBehaviour
     /// ブーが出現するまでの間隔の計測用タイマー
     /// </summary>
     [System.NonSerialized] public float intervalTimer = 0f;
+
+    /// <summary>
+    /// ブーの出現間隔
+    /// </summary>
+    public const float Interval = 61f;
+    /// <summary>
+    /// ブーの出現可能最大数
+    /// </summary>
+    public const int BooMax = 20;
+
     /// <summary>
     /// 生成したブーの種類記録用
     /// （BooTypeをintに変換して記録する）
@@ -37,29 +47,36 @@ public class BoosManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ブーが20匹(Max)だったらブーを生成しない
-        if (boos.Count >= 20) return;
+        //ブーがMaxだったらブーを生成しない
+        if (boos.Count >= BooMax) return;
 
         //ブーを出現させるインターバルを計測
         intervalTimer += Time.deltaTime;
         //Debug.Log(intervalTimer);
 
-        //61秒間隔でBooを生成（出現）
-        if (intervalTimer > 6f)
+        //出現時間になったらBooを生成（出現）
+        if (intervalTimer > Interval)
         {
-            //ブーの生成
-            int booType = (int)BooType.Normal;
-            Instantiate(booPres[booType]);
-            //生成したブーの種類を記録
-            boos.Add(booType);
+            CreateBoo((int)BooType.Normal);
             //インターバルリセット
             intervalTimer = 0f;
         }
+    }
+
+    /// <summary>
+    /// ブーの生成
+    /// </summary>
+    /// <param name="booType">生成するブーの種類</param>
+    public void CreateBoo(int booType)
+    {
+        Instantiate(booPres[booType]);
+        //生成したブーの種類を記録
+        boos.Add(booType);
     }
 }
