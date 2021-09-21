@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     /// <param name="pauseStatus"></param>
     void OnApplicationPause(bool pauseStatus)
     {
-        //ˆê’â~
+        //ˆê’â~
         if (pauseStatus)
         {
             Debug.Log("’†’f");
@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("ÄŠJ");
+            SaveData data = Load();
         }
     }
 
@@ -79,6 +80,21 @@ public class GameManager : MonoBehaviour
             writer.Write(jsonstr);
             writer.Flush();
         }
+    }
+
+    /// <summary>
+    /// ƒQ[ƒ€ƒf[ƒ^‚Ìƒ[ƒh
+    /// </summary>
+    public SaveData Load()
+    {
+        SaveData data = null;
+        using (StreamReader reader = new StreamReader(Application.dataPath + "/savedata.json"))
+        {
+            string datastr = "";
+            datastr = reader.ReadToEnd();
+            data = JsonUtility.FromJson<SaveData>(datastr);
+        };
+        return data;
     }
 
 }
