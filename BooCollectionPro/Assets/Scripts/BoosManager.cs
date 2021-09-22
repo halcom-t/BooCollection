@@ -17,12 +17,7 @@ public class BoosManager : MonoBehaviour
 
         Count   //ブーの種類の数
     }
-
-
-    /// <summary>
-    /// ブーが出現するまでの間隔の計測用タイマー
-    /// </summary>
-    [System.NonSerialized] public float intervalTimer = 0f;
+    
 
     /// <summary>
     /// ブーの出現間隔
@@ -34,10 +29,15 @@ public class BoosManager : MonoBehaviour
     public const int BooMax = 20;
 
     /// <summary>
+    /// ブーが出現するまでの間隔の計測用タイマー
+    /// </summary>
+    [System.NonSerialized] public float intervalTimer = 0f;
+    /// <summary>
     /// 生成したブーの種類記録用
     /// （BooTypeをintに変換して記録する）
     /// </summary>
     [System.NonSerialized] public List<int> boos = new List<int>();
+
     /// <summary>
     /// ブーのプレファブ(ブーのプレファブをBooType順でセット)
     /// </summary>

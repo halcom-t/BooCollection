@@ -73,70 +73,25 @@ public class GameManager : MonoBehaviour
         //再開or起動時
         else
         {
-            if (isStartUp)
-            {
-                Debug.Log("起動");
-            }
-            else
-            {
-                Debug.Log("再開");
-            }
+            if (isStartUp) Debug.Log("起動");
+            else Debug.Log("再開");
 
             //セーブデータの読み込み
             SaveData data = Load();
 
-            //セーブデータがなければ初期状態で開始
-            if (data == null)
+            //セーブデータがあるかチェック（なければデータ初期状態で開始）
+            if (data != null)
             {
-                isStartUp = false;
-                return;
+                //前回のセーブ時間からの経過時間（秒）
+                float spanTimeSec = SpanTimeSec(data);
+                //新規追加するブーの数
+                int newBooCount = NewBooCount(data, spanTimeSec);
+                //ロードしたデータをゲーム内に反映
+                ReflectLoadData(data, spanTimeSec, newBooCount);
             }
-
-            //前回セーブ時から経過した時間を取得
-            System.DateTime saveTime = System.DateTime.Parse(data.saveTime);
-            System.DateTime nowTime = System.DateTime.Now;
-            System.TimeSpan span = nowTime - saveTime;
-
-            //経過した時間が何秒か計算
-            int secD = span.Days * 24 * 60 * 60;    //日数
-            int secH = span.Hours * 60 * 60;        //時
-            int secM = span.Minutes * 60;           //分
-            int sec = span.Seconds;                 //秒
-            float totalSec = secD + secH + secM + sec + data.booIntervalTime;
-
-            //経過時間から生成可能なブーの数
-            int spanCount = (int)(totalSec / BoosManager.Interval);
-            //ブーの最大数からみて残り生成可能な数
-            int spaceCount = BoosManager.BooMax - data.boos.Count;
-            //新規ブーの生成数を計算
-            int newBooCount = Mathf.Min(spanCount, spaceCount);
-
-            //セーブデータ反映
-            if (boosManager) {
-
-                //起動時のみ
-                if (isStartUp)
-                {
-                    //既存ブーを全て生成
-                    foreach (int boo in data.boos)
-                    {
-                        boosManager.CreateBoo(boo);
-                    }
-                }
-
-                //新規ブーを全て作成
-                for (int i = 0; i < newBooCount; i++)
-                {
-                    boosManager.CreateBoo((int)BoosManager.BooType.Normal);
-                }
-
-                //ブーのインターバルを前回セーブ時から継続
-                boosManager.intervalTimer = totalSec % BoosManager.Interval;
-            }
-
-            //以降ゲーム開いたときは再開扱い
+         
+            //以降ゲーム開いたときは"再開"
             isStartUp = false;
-
         }
     }
 
@@ -152,7 +107,7 @@ public class GameManager : MonoBehaviour
         {
             data.booIntervalTime = boosManager.intervalTimer;
             data.boos = boosManager.boos;
-        }      
+        }
 
         //データ書き込み
         using (StreamWriter writer = new StreamWriter(Application.dataPath + SavedataPath, false))
@@ -175,7 +130,7 @@ public class GameManager : MonoBehaviour
         if (!File.Exists(Application.dataPath + SavedataPath))
         {
             Debug.Log("セーブデータがありません。");
-            return data;           
+            return data;
         }
 
         using (StreamReader reader = new StreamReader(Application.dataPath + SavedataPath))
@@ -187,4 +142,73 @@ public class GameManager : MonoBehaviour
         return data;
     }
 
+    /// <summary>
+    /// 前回のセーブ時間からの経過時間を取得（秒単位）
+    /// </summary>
+    /// <param name="data">前回のセーブデータ</param>
+    /// <returns>経過時間（秒）</returns>
+    float SpanTimeSec(SaveData data)
+    {
+        //前回セーブ時から経過した時間を取得
+        System.DateTime saveTime = System.DateTime.Parse(data.saveTime);
+        System.DateTime nowTime = System.DateTime.Now;
+        System.TimeSpan span = nowTime - saveTime;
+
+        //経過した時間が何秒か計算
+        int secD = span.Days * 24 * 60 * 60;    //日数
+        int secH = span.Hours * 60 * 60;        //時
+        int secM = span.Minutes * 60;           //分
+        int sec = span.Seconds;                 //秒
+        float totalSec = secD + secH + secM + sec + data.booIntervalTime;
+
+        return totalSec;
+    }
+
+    /// <summary>
+    /// 新規追加する（ゲーム閉じている間に増加した）ブーの数を取得
+    /// </summary>
+    /// <param name="spanTimeSec">前回のセーブ時間からの経過時間（秒）</param>
+    /// <param name="data">前回のセーブデータ</param>
+    /// <returns>新規追加するブーの数</returns>
+    int NewBooCount(SaveData data, float spanTimeSec)
+    {
+        //経過時間から生成可能なブーの数
+        int spanCount = (int)(spanTimeSec / BoosManager.Interval);
+        //ブーの最大数からみて残り生成可能な数
+        int spaceCount = BoosManager.BooMax - data.boos.Count;
+        //新規ブーの生成数を計算
+        int newBooCount = Mathf.Min(spanCount, spaceCount);
+
+        return newBooCount;
+    }
+
+    /// <summary>
+    /// ロードしたデータをゲーム内に反映
+    /// </summary>
+    /// <param name="data">前回のセーブデータ</param>
+    /// <param name="newBooCount">新規追加するブーの数</param>
+    /// <param name="spanTimeSec">前回のセーブ時間からの経過時間（秒）</param>
+    void ReflectLoadData(SaveData data, float spanTimeSec, int newBooCount)
+    {
+        if (!boosManager) return;
+
+        //起動時のみ既存ブーを全て生成
+        if (isStartUp)
+        {
+            foreach (int boo in data.boos)
+            {
+                boosManager.CreateBoo(boo);
+            }
+        }
+
+        //新規ブーを全て作成
+        for (int i = 0; i < newBooCount; i++)
+        {
+            boosManager.CreateBoo((int)BoosManager.BooType.Normal);
+        }
+
+        //ブー生成用のインターバル計測タイマーを、前回セーブ時から継続
+        boosManager.intervalTimer = spanTimeSec % BoosManager.Interval;
+
+    }
 }
