@@ -88,4 +88,5 @@ public class BoosManager : MonoBehaviour
         //¶¬‚µ‚½ƒu[‚Ìí—Ş‚ğ‹L˜^
         boos.Add(booType);
     }
+
 }
