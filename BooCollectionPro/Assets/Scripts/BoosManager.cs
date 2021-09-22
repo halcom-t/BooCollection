@@ -73,9 +73,18 @@ public class BoosManager : MonoBehaviour
     /// ブーの生成
     /// </summary>
     /// <param name="booType">生成するブーの種類</param>
-    public void CreateBoo(int booType)
+    /// <param name="isRandom">生成するブーの位置をランダムな位置にするか</param>
+    public void CreateBoo(int booType, bool isRandom = false)
     {
-        Instantiate(booPres[booType]);
+        //ブーの生成
+        GameObject boo = Instantiate(booPres[booType]);
+        //ブーをランダムな配置にする
+        if (isRandom)
+        {
+            float x = Random.Range(-2.4f, 2.4f);
+            float y = Random.Range(-2f, 1f);
+            boo.transform.position = new Vector3(x, y, boo.transform.position.z);
+        }
         //生成したブーの種類を記録
         boos.Add(booType);
     }

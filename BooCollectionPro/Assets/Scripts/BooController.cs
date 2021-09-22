@@ -26,16 +26,17 @@ public class BooController : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
 
-
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
-        //スポーン位置から左（可動域内）に移動
-        rb.velocity = Vector2.left * Speed;
-        anim.SetBool("IsWalk", true);
+        //スポーン位置が画面外なら、左（可動域内）に移動
+        if (transform.position.x > 3)
+        {
+            rb.velocity = Vector2.left * Speed;
+        }      
     }
 
     // Update is called once per frame
@@ -48,20 +49,23 @@ public class BooController : MonoBehaviour
         {
             //アクション時間リセット
             actionTimer = 0f;
-
-            // 2/3の確率で移動停止
+            
+            //挙動切り替え（2:1 = 停止:移動） 
             if (Random.Range(0, 3) != 0)
             {
                 rb.velocity = Vector2.zero;
-                anim.SetBool("IsWalk", false);
-                return;
             }
-
-            //ランダム方向に歩く
-            RandomMove();
-            //方向転換
-            DirectionChange();
+            else
+            {
+                //ランダム方向に歩く
+                RandomMove();
+                //方向転換
+                DirectionChange();
+            }                
         }
+
+        //アニメーション切り替え
+        anim.SetBool("IsWalk", rb.velocity.magnitude > 0);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -94,7 +98,6 @@ public class BooController : MonoBehaviour
         float x = Random.Range(-1f, 1f);
         float y = Random.Range(-1f, 1f);
         this.rb.velocity = new Vector2(x, y).normalized * Speed;
-        anim.SetBool("IsWalk", true);
     }
 
     /// <summary>

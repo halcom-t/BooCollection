@@ -197,14 +197,14 @@ public class GameManager : MonoBehaviour
         {
             foreach (int boo in data.boos)
             {
-                boosManager.CreateBoo(boo);
+                boosManager.CreateBoo(boo, true);
             }
         }
 
         //新規ブーを全て作成
         for (int i = 0; i < newBooCount; i++)
         {
-            boosManager.CreateBoo((int)BoosManager.BooType.Normal);
+            boosManager.CreateBoo((int)BoosManager.BooType.Normal, true);
         }
 
         //ブー生成用のインターバル計測タイマーを、前回セーブ時から継続
