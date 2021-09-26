@@ -22,6 +22,11 @@ public class BooController : MonoBehaviour
     /// </summary>
     const float Speed = 0.5f;
 
+    /// <summary>
+    /// ブーの種類
+    /// </summary>
+    [System.NonSerialized] public BoosManager.BooType type = BoosManager.BooType.Normal;
+
     //コンポーネント---------------------------------
     Rigidbody2D rb;
     Animator anim;

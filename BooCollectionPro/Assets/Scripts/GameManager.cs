@@ -11,7 +11,7 @@ public class SaveData
 {
     public string saveTime;         //セーブ時刻（現実）
     public float booIntervalTime;   //ブーの出現間隔管理時間
-    public List<int> boos;          //生成済みのブー
+    public List<int> booTypes = new List<int>();      //アクティブなブーの種類
 }
 
 /// <summary>
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     string SavedataPath { get; } = "/savedata.json";
 
     /// <summary>
-    /// 起動か　：true起動/false再開　（OnApplicationPause()で再開か起動かを判定する用）
+    /// 起動か：true起動 or false再開　（OnApplicationPause()で再開か起動かを判定する用）
     /// </summary>
     bool isStartUp = true;
 
@@ -106,7 +106,11 @@ public class GameManager : MonoBehaviour
         if (boosManager)
         {
             data.booIntervalTime = boosManager.intervalTimer;
-            data.boos = boosManager.boos;
+            foreach (BooData boo in boosManager.activeBoos)
+            {
+                Debug.Log(boo.controller);
+                data.booTypes.Add((int)boo.controller.type);
+            }            
         }
 
         //データ書き込み
@@ -172,10 +176,10 @@ public class GameManager : MonoBehaviour
     /// <returns>新規追加するブーの数</returns>
     int NewBooCount(SaveData data, float spanTimeSec)
     {
-        //経過時間から生成可能なブーの数
+        //経過時間からアクティブにできるブーの数
         int spanCount = (int)(spanTimeSec / BoosManager.Interval);
         //ブーの最大数からみて残り生成可能な数
-        int spaceCount = BoosManager.BooMax - data.boos.Count;
+        int spaceCount = BoosManager.BooMax - data.booTypes.Count;
         //新規ブーの生成数を計算
         int newBooCount = Mathf.Min(spanCount, spaceCount);
 
@@ -195,16 +199,16 @@ public class GameManager : MonoBehaviour
         //起動時のみ既存ブーを全て生成
         if (isStartUp)
         {
-            foreach (int boo in data.boos)
+            foreach (int boo in data.booTypes)
             {
-                boosManager.CreateBoo(boo, true);
+                boosManager.SetBooActive(boo, true);
             }
         }
 
         //新規ブーを全て作成
         for (int i = 0; i < newBooCount; i++)
         {
-            boosManager.CreateBoo((int)BoosManager.BooType.Normal, true);
+            boosManager.SetBooActive((int)BoosManager.BooType.Normal, true);
         }
 
         //ブー生成用のインターバル計測タイマーを、前回セーブ時から継続

@@ -360,9 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef1bffcfdedac24e9c76432bcb38d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  booPres:
-  - {fileID: 8855411509280855251, guid: 4923d1c1070d0a740bda9dcebe636732, type: 3}
-  - {fileID: 0}
+  booPre: {fileID: 8855411509280855251, guid: 4923d1c1070d0a740bda9dcebe636732, type: 3}
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// ブーの情報
+/// </summary>
+public struct BooData
+{
+    public GameObject obj;              //ブーのオブジェクト
+    public BooController controller;    //ブーにアタッチされてるコントローラー（BooController）
+}
+
+
 /// <summary>
 /// 全ブーの管理
 /// </summary>
@@ -22,7 +33,7 @@ public class BoosManager : MonoBehaviour
     /// <summary>
     /// ブーの出現間隔
     /// </summary>
-    public const float Interval = 61f;
+    public const float Interval = 6f;
     /// <summary>
     /// ブーの出現可能最大数
     /// </summary>
@@ -32,61 +43,94 @@ public class BoosManager : MonoBehaviour
     /// ブーが出現するまでの間隔の計測用タイマー
     /// </summary>
     [System.NonSerialized] public float intervalTimer = 0f;
-    /// <summary>
-    /// 生成したブーの種類記録用
-    /// （BooTypeをintに変換して記録する）
-    /// </summary>
-    [System.NonSerialized] public List<int> boos = new List<int>();
 
     /// <summary>
-    /// ブーのプレファブ(ブーのプレファブをBooType順でセット)
+    /// アクティブなブー
     /// </summary>
-    [SerializeField] GameObject[] booPres = new GameObject[(int)BooType.Count];
+    [System.NonSerialized] public List<BooData> activeBoos = new List<BooData>();
+    /// <summary>
+    /// 非アクティブなブー
+    /// </summary>
+    List<BooData> notActiveBoos = new List<BooData>();
+
+    /// <summary>
+    /// ブーのプレファブ
+    /// </summary>
+    [SerializeField] GameObject booPre;
 
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        for (int i = 0; i < BooMax; i++)
+        {
+            BooData boo = new BooData();
+            boo.obj = Instantiate(booPre);
+            boo.controller = boo.obj.GetComponent<BooController>();
+            notActiveBoos.Add(boo);
+            notActiveBoos[i].obj.SetActive(false);
+        }      
+    }
+
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //ブーがMaxだったらブーを生成しない
-        if (boos.Count >= BooMax) return;
+        //アクティブなブーが上限数なら処理しない
+        if (activeBoos.Count >= BooMax)
+        {
+            //インターバルリセット
+            intervalTimer = 0f;
+            return;
+        } 
 
         //ブーを出現させるインターバルを計測
         intervalTimer += Time.deltaTime;
         //Debug.Log(intervalTimer);
 
-        //出現時間になったらBooを生成（出現）
+        //出現時間になったらBooをアクティブにする（出現）
         if (intervalTimer > Interval)
         {
-            CreateBoo((int)BooType.Normal);
+            SetBooActive((int)BooType.Normal);
             //インターバルリセット
             intervalTimer = 0f;
         }
     }
 
     /// <summary>
-    /// ブーの生成
+    /// ブーをアクティブにする
     /// </summary>
-    /// <param name="booType">生成するブーの種類</param>
-    /// <param name="isRandom">生成するブーの位置をランダムな位置にするか</param>
-    public void CreateBoo(int booType, bool isRandom = false)
+    /// <param name="booType">ブーの種類</param>
+    /// <param name="isRandom">ブーの位置をランダムな位置にするか</param>
+    public void SetBooActive(int booType, bool isRandom = false)
     {
-        //ブーの生成
-        GameObject boo = Instantiate(booPres[booType]);
+        //非アクティブなブーがいなければ処理しない
+        if (notActiveBoos.Count <= 0) return;
+
+        //ブーをアクティブ化＆種類の設定
+        BooData boo = notActiveBoos[0];
+        boo.obj.SetActive(true);
+        boo.controller.type = (BooType)booType;
+
         //ブーをランダムな配置にする
         if (isRandom)
         {
             float x = Random.Range(-2.4f, 2.4f);
             float y = Random.Range(-2f, 1f);
-            boo.transform.position = new Vector3(x, y, boo.transform.position.z);
+            boo.obj.transform.position = new Vector3(x, y, boo.obj.transform.position.z);
         }
-        //生成したブーの種類を記録
-        boos.Add(booType);
+        else
+        {
+            boo.obj.transform.position = booPre.transform.position;
+        }
+
+        //ブー管理用リストの更新
+        activeBoos.Add(boo);
+        notActiveBoos.RemoveAt(0);
+
+        Debug.Log("activeBoos:" + activeBoos.Count + "/notActiveBoos:" + notActiveBoos.Count);
     }
 
 }
