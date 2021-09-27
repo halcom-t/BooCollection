@@ -51,7 +51,7 @@ public class BoosManager : MonoBehaviour
     /// <summary>
     /// 非アクティブなブー
     /// </summary>
-    List<BooData> notActiveBoos = new List<BooData>();
+    [System.NonSerialized] public List<BooData> notActiveBoos = new List<BooData>();
 
     /// <summary>
     /// ブーのプレファブ
@@ -61,6 +61,7 @@ public class BoosManager : MonoBehaviour
 
     void Awake()
     {
+        //ブーを生成
         for (int i = 0; i < BooMax; i++)
         {
             BooData boo = new BooData();
@@ -78,7 +79,10 @@ public class BoosManager : MonoBehaviour
 
     void Update()
     {
-        //アクティブなブーが上限数なら処理しない
+        //UFOに吸い込まれたブーをチェック
+        CheckInhaleFinish();
+
+        //アクティブなブーが上限数に達しているなら処理しない
         if (activeBoos.Count >= BooMax)
         {
             //インターバルリセット
@@ -112,18 +116,21 @@ public class BoosManager : MonoBehaviour
         //ブーをアクティブ化＆種類の設定
         BooData boo = notActiveBoos[0];
         boo.obj.SetActive(true);
+        boo.controller.enabled = true;
         boo.controller.type = (BooType)booType;
 
-        //ブーをランダムな配置にする
         if (isRandom)
         {
+            //ランダムな配置にする
             float x = Random.Range(-2.4f, 2.4f);
             float y = Random.Range(-2f, 1f);
             boo.obj.transform.position = new Vector3(x, y, boo.obj.transform.position.z);
         }
         else
         {
+            //画面外に配置にする
             boo.obj.transform.position = booPre.transform.position;
+            boo.controller.MoveStartPoint();
         }
 
         //ブー管理用リストの更新
@@ -131,6 +138,26 @@ public class BoosManager : MonoBehaviour
         notActiveBoos.RemoveAt(0);
 
         Debug.Log("activeBoos:" + activeBoos.Count + "/notActiveBoos:" + notActiveBoos.Count);
+    }
+
+    /// <summary>
+    /// UFOに吸い込まれたブーの処理
+    /// </summary>
+    void CheckInhaleFinish()
+    {
+        foreach (BooData boo in activeBoos)
+        {
+            //ブーがUFOの位置まで上昇していたら非アクティブにする
+            if (boo.obj.transform.position.y > 3.8f)
+            {
+                boo.obj.SetActive(false);
+                boo.controller.isInhale = false;
+                activeBoos.Remove(boo);
+                notActiveBoos.Add(boo);
+                //activeBoosのサイズ変更によるエラー対策で抜ける
+                return;
+            }
+        }
     }
 
 }

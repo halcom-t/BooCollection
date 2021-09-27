@@ -13,6 +13,11 @@ public class BooController : MonoBehaviour
     bool inBooArea = false;
 
     /// <summary>
+    /// UFOに吸い込まれ中か
+    /// </summary>
+    [System.NonSerialized] public bool isInhale = false;
+
+    /// <summary>
     /// アクション間隔の計算用タイマー
     /// </summary>
     float actionTimer = 0f;
@@ -31,17 +36,15 @@ public class BooController : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+    }
 
-        //スポーン位置が画面外なら、左（可動域内）に移動
-        if (transform.position.x > 3)
-        {
-            rb.velocity = Vector2.left * Speed;
-        }      
+    void Start()
+    {
+
     }
 
     // Update is called once per frame
@@ -50,11 +53,11 @@ public class BooController : MonoBehaviour
         actionTimer += Time.deltaTime;
 
         //可動域内＆アクション可能時間(3秒)になったら
-        if (inBooArea && actionTimer>3f)
+        if (inBooArea && actionTimer > 3f)
         {
             //アクション時間リセット
             actionTimer = 0f;
-            
+
             //挙動切り替え（2:1 = 停止:移動） 
             if (Random.Range(0, 3) != 0)
             {
@@ -66,7 +69,7 @@ public class BooController : MonoBehaviour
                 RandomMove();
                 //方向転換
                 DirectionChange();
-            }                
+            }
         }
 
         //アニメーション切り替え
@@ -76,7 +79,7 @@ public class BooController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         //可動域に入ったとき
-        if (collision.gameObject.tag == "BooArea")
+        if (collision.gameObject.tag == "BooArea" && !isInhale)
         {
             inBooArea = true;
         }
@@ -85,7 +88,7 @@ public class BooController : MonoBehaviour
     void OnTriggerExit2D(Collider2D collision)
     {
         //可動域から出たとき
-        if (collision.gameObject.tag == "BooArea")
+        if (collision.gameObject.tag == "BooArea" && !isInhale)
         {
             inBooArea = false;
             //可動域から出てしまったら反対方向に移動して可動域内に戻る
@@ -123,6 +126,32 @@ public class BooController : MonoBehaviour
         {
             transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
         }
+    }
+
+    /// <summary>
+    /// UFOに吸い込まれる処理
+    /// </summary>
+    /// <param name="InhalePos">ブーが吸い込まれていく位置</param>
+    public void Inhale(Vector3 InhalePos)
+    {
+        isInhale = true;
+
+        //UFOの方向に移動（吸い込まれる）
+        Vector3 directionUFO = InhalePos - this.transform.position;
+        rb.velocity = directionUFO.normalized * 3;
+
+        //BooController制御（OnTrigger関連は制御不可）
+        this.enabled = false;
+    }
+
+    /// <summary>
+    /// スタート地点(画面外)からの移動開始処理
+    /// </summary>
+    public void MoveStartPoint()
+    {
+        inBooArea = false;
+        rb.velocity = Vector2.left * Speed;
+        DirectionChange();
     }
 
 }
