@@ -50,6 +50,8 @@ public class BooController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isInhale) return;
+
         actionTimer += Time.deltaTime;
 
         //可動域内＆アクション可能時間(3秒)になったら
@@ -140,8 +142,7 @@ public class BooController : MonoBehaviour
         Vector3 directionUFO = InhalePos - this.transform.position;
         rb.velocity = directionUFO.normalized * 3;
 
-        //BooController制御（OnTrigger関連は制御不可）
-        this.enabled = false;
+        this.anim.SetBool("IsStartInhole", true);
     }
 
     /// <summary>

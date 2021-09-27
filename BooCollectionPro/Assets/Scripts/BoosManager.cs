@@ -116,7 +116,6 @@ public class BoosManager : MonoBehaviour
         //ブーをアクティブ化＆種類の設定
         BooData boo = notActiveBoos[0];
         boo.obj.SetActive(true);
-        boo.controller.enabled = true;
         boo.controller.type = (BooType)booType;
 
         if (isRandom)
