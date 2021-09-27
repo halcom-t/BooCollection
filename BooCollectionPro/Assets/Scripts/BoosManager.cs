@@ -58,13 +58,13 @@ public class BoosManager : MonoBehaviour
     /// </summary>
     [SerializeField] GameObject booPre;
 
-    [SerializeField] GameObject UFOEffectObj;
+    [SerializeField] GameObject ufoEffectObj;
     UFOController ufoController;
 
 
     void Awake()
     {
-        ufoController = UFOEffectObj.GetComponent<UFOController>();
+        ufoController = ufoEffectObj.GetComponent<UFOController>();
 
         //ブーを生成
         for (int i = 0; i < BooMax; i++)
@@ -88,7 +88,15 @@ public class BoosManager : MonoBehaviour
         CheckInhaleFinish();
 
         //UFOが出現中は処理しない
-        if (ufoController.isUFOActive) return;
+        if (ufoEffectObj.activeSelf)
+        {
+            //全てのブーを回収したらUFO撤退
+            if (activeBoos.Count == 0)
+            {
+                ufoController.anim.SetBool("IsOut", true);
+            }
+            return;
+        }
 
         //アクティブなブーが上限数に達しているなら処理しない
         if (activeBoos.Count >= BooMax)
@@ -155,7 +163,7 @@ public class BoosManager : MonoBehaviour
         foreach (BooData boo in activeBoos)
         {
             //ブーがUFOの位置まで上昇していたら非アクティブにする
-            if (boo.obj.transform.position.y > 3.8f)
+            if (boo.obj.transform.position.y > 3.5f)
             {
                 boo.obj.SetActive(false);
                 boo.controller.isInhale = false;

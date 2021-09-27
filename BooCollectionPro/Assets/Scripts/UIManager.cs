@@ -9,11 +9,13 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [SerializeField] GameObject ufoEffectObj;
 
+    BoosManager boosManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        boosManager = GetComponent<BoosManager>();
     }
 
     // Update is called once per frame
@@ -27,6 +29,10 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void OnUIButtonUFO()
     {
-        ufoEffectObj.SetActive(true);
+        if (boosManager.activeBoos.Count > 0)
+        {
+            ufoEffectObj.SetActive(true);
+        }
+        
     }
 }
