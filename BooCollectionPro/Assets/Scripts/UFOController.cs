@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class UFOController : MonoBehaviour
 {
+    /// <summary>
+    /// UFOEffectオブジェクトがアクティブ状態か
+    /// </summary>
+    [System.NonSerialized] public bool isUFOActive = false;
+
     [SerializeField] GameObject camera;
     BoosManager boosManager;
 
@@ -21,14 +26,31 @@ public class UFOController : MonoBehaviour
     }
 
     /// <summary>
+    /// アクティブになった時
+    /// </summary>
+    void OnEnable()
+    {
+        isUFOActive = true;
+    }
+
+    /// <summary>
+    /// 非アクティブになった時
+    /// </summary>
+    void OnDisable()
+    {
+        isUFOActive = false;
+    }
+
+    /// <summary>
     /// ブーをUFOに吸い込む
     /// </summary>
-    public void InhaleBoos()
+    public void AnimEventInhaleBoos()
     {
         foreach (BooData boo in boosManager.activeBoos)
         {
             boo.controller.Inhale(new Vector3(0f, 3.5f, 0f));
         }
     }
+
 
 }

@@ -763,7 +763,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 3.5
-    functionName: InhaleBoos
+    functionName: AnimEventInhaleBoos
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: fef1bffcfdedac24e9c76432bcb38d49, type: 3}
     floatParameter: 0

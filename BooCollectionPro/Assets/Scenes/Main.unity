@@ -361,6 +361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   booPre: {fileID: 8855411509280855251, guid: 4923d1c1070d0a740bda9dcebe636732, type: 3}
+  UFOEffectObj: {fileID: 1486095547}
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
