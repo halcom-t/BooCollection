@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,13 +10,35 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [SerializeField] GameObject ufoEffectObj;
 
+    /// <summary>
+    /// BPのUI
+    /// </summary>
+    [SerializeField] GameObject booPointUI;
+    /// <summary>
+    /// BP（Text）
+    /// </summary>
+    [SerializeField] Text booPointText;
+
+    //コンポーネント----------------------------
+    GameManager gameManager;
     BoosManager boosManager;
 
+    /// <summary>
+    /// BPのUIのアニメーター
+    /// </summary>
+    Animator booPointAnim;
 
-    // Start is called before the first frame update
+
+    void Awake()
+    {
+        gameManager = GetComponent<GameManager>();
+        boosManager = GetComponent<BoosManager>();
+        booPointAnim = booPointUI.GetComponent<Animator>();
+    }
+
     void Start()
     {
-        boosManager = GetComponent<BoosManager>();
+
     }
 
     // Update is called once per frame
@@ -34,5 +57,22 @@ public class UIManager : MonoBehaviour
             ufoEffectObj.SetActive(true);
         }
         
+    }
+
+    /// <summary>
+    /// BPの加算＆更新処理
+    /// </summary>
+    /// <param name="bp">加算するBP</param>
+    public void AddBooPoint(int bp)
+    {
+        gameManager.booPoint += bp;
+        booPointText.text = gameManager.booPoint.ToString();
+        booPointAnim.SetBool("IsBPChange", true);
+        Invoke("EndBPAnim", 0.25f);
+    }
+
+    void EndBPAnim()
+    {
+        booPointAnim.SetBool("IsBPChange", false);
     }
 }

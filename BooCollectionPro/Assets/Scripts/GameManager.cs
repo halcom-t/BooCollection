@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     bool isStartUp = true;
 
+    /// <summary>
+    /// ブーポイント
+    /// </summary>
+    [System.NonSerialized] public int booPoint = 0;
+
     //コンポーネント-------------------------------
     BoosManager boosManager = null;
 

@@ -58,12 +58,16 @@ public class BoosManager : MonoBehaviour
     /// </summary>
     [SerializeField] GameObject booPre;
 
+
+    //コンポーネント---------------------------
     [SerializeField] GameObject ufoEffectObj;
     UFOController ufoController;
+    UIManager uiManaager;
 
 
     void Awake()
     {
+        uiManaager = GetComponent<UIManager>();
         ufoController = ufoEffectObj.GetComponent<UFOController>();
 
         //ブーを生成
@@ -169,6 +173,10 @@ public class BoosManager : MonoBehaviour
                 boo.controller.isInhale = false;
                 activeBoos.Remove(boo);
                 notActiveBoos.Add(boo);
+
+                //BPを加算（獲得）
+                uiManaager.AddBooPoint(1);
+
                 //activeBoosのサイズ変更によるエラー対策で抜ける
                 return;
             }
