@@ -11,6 +11,7 @@ public class SaveData
 {
     public string saveTime;         //セーブ時刻（現実）
     public float booIntervalTime;   //ブーの出現間隔管理時間
+    public int booPoint;            //所持BP
     public List<int> booTypes = new List<int>();      //アクティブなブーの種類
 }
 
@@ -108,6 +109,7 @@ public class GameManager : MonoBehaviour
         //セーブデータのセット
         SaveData data = new SaveData();
         data.saveTime = System.DateTime.Now.ToString();
+        data.booPoint = this.booPoint;
         if (boosManager)
         {
             data.booIntervalTime = boosManager.intervalTimer;
@@ -201,13 +203,17 @@ public class GameManager : MonoBehaviour
     {
         if (!boosManager) return;
 
-        //起動時のみ既存ブーを全て生成
+        //起動時のみ
         if (isStartUp)
         {
+            //既存ブーを全て生成
             foreach (int boo in data.booTypes)
             {
                 boosManager.SetBooActive(boo, true);
             }
+
+            //所持BPのデータ反映
+            this.booPoint = data.booPoint;
         }
 
         //新規ブーを全て作成

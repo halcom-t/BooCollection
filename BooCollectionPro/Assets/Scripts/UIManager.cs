@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-
+        booPointText.text = gameManager.booPoint.ToString();
     }
 
     // Update is called once per frame
