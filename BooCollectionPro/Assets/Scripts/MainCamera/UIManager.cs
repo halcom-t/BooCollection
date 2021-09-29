@@ -11,6 +11,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject ufoEffectObj;
 
     /// <summary>
+    /// ShopUI
+    /// </summary>
+    [SerializeField] GameObject shopUI;
+
+    /// <summary>
+    /// 画面下部のアイコンUIバー
+    /// </summary>
+    [SerializeField] GameObject iconAreaUI;
+
+    /// <summary>
     /// BPのUI
     /// </summary>
     [SerializeField] GameObject booPointUI;
@@ -52,11 +62,22 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void OnUIButtonUFO()
     {
-        if (boosManager.activeBoos.Count > 0)
+        //ブーがいるならUFOをアクティブにする
+        if (boosManager.activeBoos.Count > 0)ufoEffectObj.SetActive(true);    
+    }
+
+    /// <summary>
+    /// 皿をタップした時
+    /// </summary>
+    public void OnPlateButton()
+    {
+        //ショップ画面 & UFO非表示
+        if (!shopUI.activeSelf && !ufoEffectObj.activeSelf)
         {
-            ufoEffectObj.SetActive(true);
+            //ショップ画面表示＆アイコン非表示
+            shopUI.SetActive(true);
+            iconAreaUI.SetActive(false);
         }
-        
     }
 
     /// <summary>
@@ -68,9 +89,13 @@ public class UIManager : MonoBehaviour
         gameManager.booPoint += bp;
         booPointText.text = gameManager.booPoint.ToString();
         booPointAnim.SetBool("IsBPChange", true);
+        //0.25秒後にアニメ―ション終了
         Invoke("EndBPAnim", 0.25f);
     }
 
+    /// <summary>
+    /// BPアニメーション終了
+    /// </summary>
     void EndBPAnim()
     {
         booPointAnim.SetBool("IsBPChange", false);
