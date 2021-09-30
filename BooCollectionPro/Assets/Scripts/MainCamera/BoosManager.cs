@@ -141,7 +141,7 @@ public class BoosManager : MonoBehaviour
         if (isRandom)
         {
             //ƒ‰ƒ“ƒ_ƒ€‚È”z’u‚É‚·‚é
-            float x = Random.Range(-2.4f, 2.4f);
+            float x = Random.Range(-2f, 2f);
             float y = Random.Range(-2f, 1f);
             boo.obj.transform.position = new Vector3(x, y, boo.obj.transform.position.z);
         }
