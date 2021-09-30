@@ -14,6 +14,10 @@ public class UIManager : MonoBehaviour
     /// ShopUI
     /// </summary>
     [SerializeField] GameObject shopUI;
+    /// <summary>
+    /// ショップのアニメーター
+    /// </summary>
+    Animator shopAnim;
 
     /// <summary>
     /// 画面下部のアイコンUIバー
@@ -28,15 +32,14 @@ public class UIManager : MonoBehaviour
     /// BP（Text）
     /// </summary>
     [SerializeField] Text booPointText;
-
-    //コンポーネント----------------------------
-    GameManager gameManager;
-    BoosManager boosManager;
-
     /// <summary>
     /// BPのUIのアニメーター
     /// </summary>
     Animator booPointAnim;
+
+    //コンポーネント----------------------------
+    GameManager gameManager;
+    BoosManager boosManager;
 
 
     void Awake()
@@ -44,6 +47,7 @@ public class UIManager : MonoBehaviour
         gameManager = GetComponent<GameManager>();
         boosManager = GetComponent<BoosManager>();
         booPointAnim = booPointUI.GetComponent<Animator>();
+        shopAnim = shopUI.GetComponent<Animator>();
     }
 
     void Start()
@@ -78,6 +82,15 @@ public class UIManager : MonoBehaviour
             shopUI.SetActive(true);
             iconAreaUI.SetActive(false);
         }
+    }
+
+    /// <summary>
+    /// ショップのCLOSEボタンタップ時
+    /// </summary>
+    public void OnShopCloseButton()
+    {
+        shopAnim.SetBool("IsClose", true);
+        iconAreaUI.SetActive(true);
     }
 
     /// <summary>
