@@ -524,7 +524,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0.9939373, b: 0.6745283, a: 1}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -999,7 +999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1007,9 +1007,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 82ce00d8e29d94c4ca62a3eff47f50f9, type: 3}
+    m_Font: {fileID: 12800000, guid: 8f7d2ca30917866448827d5524478bb1, type: 3}
     m_FontSize: 100
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 163
@@ -1828,6 +1828,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ad2c970f8029643a93e6f1f14e9c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodDataList:
+  - Image: {fileID: 21300000, guid: 3fffe8d7452566e43b091537149e7904, type: 3}
+    Name: "\u30AB\u30D6\u30A9\u30A9\u30A9\u30A9\u30AA"
+    Detail: "\u767D\u304F\u3066\u304A\u3044\u3057\u3044\u3084\u3055\u3044\u3002 \u3072\u304D\u8089\u3068\u3068\u3063\u3066\u3082\u5408\u3046\u3088
+      \u3046\u307E\u307E\u307E\u307E\u307E\u307E\u3093\uFF01\uFF01\uFF01"
+    Cost: 20
+    ExpiryDateMin: 150
+  - Image: {fileID: 21300000, guid: 3fffe8d7452566e43b091537149e7904, type: 3}
+    Name: "\u30AB\u30D6\u305F\u306B\u3048\u3093"
+    Detail: "\u307E\u30FC\u307C\u30FC\u306F\u308B\u3055\u3081\u3093\u3063"
+    Cost: 50
+    ExpiryDateMin: 180
+  - Image: {fileID: 21300000, guid: 3fffe8d7452566e43b091537149e7904, type: 3}
+    Name: "\u304B\u3076\u308B\u3093\u308B\u3093"
+    Detail: "\u308B\u3093\u308B\u3093\u308B\u30FC\u30FC\u3093\uFF01"
+    Cost: 30
+    ExpiryDateMin: 30
+  - Image: {fileID: 21300000, guid: 3fffe8d7452566e43b091537149e7904, type: 3}
+    Name: "\u30B4\u30FC\u30EB\u30C7\u30F3\u30AB\u30D6"
+    Detail: "\u79C1\u306E\u6226\u95D8\u529B\u306F53\u4E07\u3067\u3059\u3002"
+    Cost: 530000
+    ExpiryDateMin: 12
+  - Image: {fileID: 21300000, guid: 3fffe8d7452566e43b091537149e7904, type: 3}
+    Name: "\u30B9\u30FC\u30D1\u30FC\u30AB\u30D6"
+    Detail: "\u5927\u5E45\u306B\u6226\u95D8\u529B\u304C\u4E0A\u6607\u3059\u308B\u3002\u9006\u7ACB\u3063\u305F\u91D1\u9AEA\u3068\u5168\u8EAB\u304B\u3089\u8FF8\u308B\u91D1\u8272\u306E\u30AA\u30FC\u30E9\u304C\u7279\u5FB4\u7684\u3002"
+    Cost: 2000
+    ExpiryDateMin: 131
+  shopContentPre: {fileID: 2726674840488309414, guid: 67d0ef0e7a90f814181b4a215ab28dde, type: 3}
+  shopContentParent: {fileID: 1256574391}
 --- !u!1 &1840579740
 GameObject:
   m_ObjectHideFlags: 0
