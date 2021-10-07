@@ -71,9 +71,9 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 皿をタップした時
+    /// ショップ画面を開く処理
     /// </summary>
-    public void OnPlateButton()
+    public void OpenShop()
     {
         //ショップ画面 & UFO非表示
         if (!shopUI.activeSelf && !ufoEffectObj.activeSelf)
@@ -89,6 +89,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void OnShopCloseButton()
     {
+        //ショップ画面を閉じる
         shopAnim.SetBool("IsClose", true);
         iconAreaUI.SetActive(true);
     }
