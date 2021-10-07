@@ -97,7 +97,7 @@ public class BoosManager : MonoBehaviour
             //‘S‚Ä‚Ìƒu[‚ğ‰ñû‚µ‚½‚çUFO“P‘Ş
             if (activeBoos.Count == 0)
             {
-                ufoController.anim.SetBool("IsOut", true);
+                ufoController.anim.SetTrigger("Out");
             }
             return;
         }

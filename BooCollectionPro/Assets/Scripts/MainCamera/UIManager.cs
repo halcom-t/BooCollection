@@ -123,7 +123,7 @@ public class UIManager : MonoBehaviour
     public void OnShopCloseButton()
     {
         //ショップ画面を閉じる
-        shopAnim.SetBool("IsClose", true);
+        shopAnim.SetTrigger("Close");
         iconAreaUI.SetActive(true);
         //皿アニメ終了
         plateAnims[selectedPlateIndex].SetBool("IsSelected", false);

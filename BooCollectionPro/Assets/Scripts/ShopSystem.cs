@@ -67,7 +67,6 @@ public class ShopSystem : MonoBehaviour
     /// </summary>
     public void AnimEventCloseShop()
     {
-        anim.SetBool("IsClose", false);
         this.gameObject.SetActive(false);
     }
 
