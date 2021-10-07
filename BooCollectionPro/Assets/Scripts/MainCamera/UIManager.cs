@@ -137,16 +137,8 @@ public class UIManager : MonoBehaviour
     {
         gameManager.booPoint += bp;
         booPointText.text = gameManager.booPoint.ToString();
-        booPointAnim.SetBool("IsBPChange", true);
-        //0.25秒後にアニメ―ション終了
-        Invoke("EndBPAnim", 0.25f);
+        //アニメーション再生
+        booPointAnim.SetTrigger("BpChange");
     }
 
-    /// <summary>
-    /// BPアニメーション終了
-    /// </summary>
-    void EndBPAnim()
-    {
-        booPointAnim.SetBool("IsBPChange", false);
-    }
 }
