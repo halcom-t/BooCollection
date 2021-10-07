@@ -2219,7 +2219,7 @@ MonoBehaviour:
     Detail: "\u5927\u5E45\u306B\u6226\u95D8\u529B\u304C\u4E0A\u6607\u3059\u308B\u3002\u9006\u7ACB\u3063\u305F\u91D1\u9AEA\u3068\u5168\u8EAB\u304B\u3089\u8FF8\u308B\u91D1\u8272\u306E\u30AA\u30FC\u30E9\u304C\u7279\u5FB4\u7684\u3002"
     Cost: 2000
     ExpiryDateMin: 131
-  shopContentPre: {fileID: 2726674840488309414, guid: 67d0ef0e7a90f814181b4a215ab28dde, type: 3}
+  shopCellPre: {fileID: 2726674840488309414, guid: 67d0ef0e7a90f814181b4a215ab28dde, type: 3}
   shopContentParent: {fileID: 1256574391}
 --- !u!1 &1840579740
 GameObject:

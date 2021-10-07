@@ -29,12 +29,12 @@ public class ShopSystem : MonoBehaviour
     [SerializeField] List<FoodData> foodDataList = new List<FoodData>();
 
     /// <summary>
-    /// ショップリストに並べるコンテンツUIプレファブ
+    /// ショップリストに並べるセル（プレファブ）
     /// </summary>
-    [SerializeField] GameObject shopContentPre;
+    [SerializeField] GameObject shopCellPre;
 
     /// <summary>
-    /// ショップのコンテンツUIを作成する親オブジェクト
+    /// ショップリストのセルを並べる親オブジェクト
     /// </summary>
     [SerializeField] GameObject shopContentParent;
 
@@ -78,7 +78,7 @@ public class ShopSystem : MonoBehaviour
         for (int i = 0; i < foodDataList.Count; i++)
         {
             //プレファブを基にUI作成
-            GameObject content = Instantiate(shopContentPre);
+            GameObject content = Instantiate(shopCellPre);
 
             //画像
             Image image = content.transform.Find("FoodImage").GetComponent<Image>();
@@ -109,9 +109,22 @@ public class ShopSystem : MonoBehaviour
                 expiryDate.text = string.Format("{0}h{1}min", h, min);
             }
 
+
+            content.GetComponent<Button>().onClick.AddListener(() => { OnShopCell(content); });
+
             //親オブジェクトの設定
             content.transform.SetParent(shopContentParent.transform);
         }
+    }
+
+    /// <summary>
+    /// ショップリストのセルをタップしたとき
+    /// </summary>
+    /// <param name="tapCellObj">タップしたセル</param>
+    public void OnShopCell(GameObject tapCellObj)
+    {
+        //テスト
+        Debug.Log(tapCellObj.transform.Find("NameText").GetComponent<Text>().text);
     }
 
 }
