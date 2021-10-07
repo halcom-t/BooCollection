@@ -37,6 +37,20 @@ public class UIManager : MonoBehaviour
     /// </summary>
     Animator booPointAnim;
 
+    /// <summary>
+    /// 皿オブジェクト（C,L,R）
+    /// </summary>
+    [SerializeField] List<GameObject> plateObjs;
+    /// <summary>
+    /// 各皿オブジェクトのAnimator（C,L,R）
+    /// </summary>
+    List<Animator> plateAnims = new List<Animator>();
+    /// <summary>
+    /// 現在選択中の皿オブジェクトのインデックス番号
+    /// </summary>
+    int selectedPlateIndex;
+
+
     //コンポーネント----------------------------
     GameManager gameManager;
     BoosManager boosManager;
@@ -48,6 +62,10 @@ public class UIManager : MonoBehaviour
         boosManager = GetComponent<BoosManager>();
         booPointAnim = booPointUI.GetComponent<Animator>();
         shopAnim = shopUI.GetComponent<Animator>();
+        for (int i = 0; i < 3; i++)
+        {
+            plateAnims.Add(plateObjs[i].GetComponent<Animator>());
+        }
     }
 
     void Start()
@@ -73,7 +91,8 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// ショップ画面を開く処理
     /// </summary>
-    public void OpenShop()
+    /// <param name="selectPlate">選択された皿オブジェクト</param>
+    public void OpenShop(GameObject selectPlate)
     {
         //ショップ画面 & UFO非表示
         if (!shopUI.activeSelf && !ufoEffectObj.activeSelf)
@@ -81,6 +100,20 @@ public class UIManager : MonoBehaviour
             //ショップ画面表示＆アイコン非表示
             shopUI.SetActive(true);
             iconAreaUI.SetActive(false);
+        }
+
+        //皿アニメ切り替え
+        for (int i = 0; i < plateObjs.Count; i++)
+        {
+            if (selectPlate == plateObjs[i])
+            {
+                plateAnims[i].SetBool("IsSelected", true);
+                selectedPlateIndex = i;
+            }
+            else
+            {
+                plateAnims[i].SetBool("IsSelected", false);
+            }
         }
     }
 
@@ -92,6 +125,8 @@ public class UIManager : MonoBehaviour
         //ショップ画面を閉じる
         shopAnim.SetBool("IsClose", true);
         iconAreaUI.SetActive(true);
+        //皿アニメ終了
+        plateAnims[selectedPlateIndex].SetBool("IsSelected", false);
     }
 
     /// <summary>

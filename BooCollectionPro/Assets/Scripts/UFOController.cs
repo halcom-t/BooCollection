@@ -5,7 +5,7 @@ using UnityEngine;
 public class UFOController : MonoBehaviour
 {
 
-    [SerializeField] GameObject camera;
+    [SerializeField] new GameObject camera;
     BoosManager boosManager;
 
     [System.NonSerialized] public Animator anim;

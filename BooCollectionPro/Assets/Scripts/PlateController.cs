@@ -38,8 +38,7 @@ public class PlateController : MonoBehaviour
     public void OnPlate()
     {
         //ショップ画面を開く
-        uiManager.OpenShop();
-        //皿選択アニメ―ション開始
-        anim.SetBool("IsSelected", true);
+        uiManager.OpenShop(this.gameObject);
     }
+
 }

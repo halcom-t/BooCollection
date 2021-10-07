@@ -619,6 +619,10 @@ MonoBehaviour:
   iconAreaUI: {fileID: 1736549094}
   booPointUI: {fileID: 283144247}
   booPointText: {fileID: 859760506}
+  plateObjs:
+  - {fileID: 705940916}
+  - {fileID: 1337224913}
+  - {fileID: 1164251529}
 --- !u!114 &519420036
 MonoBehaviour:
   m_ObjectHideFlags: 0
