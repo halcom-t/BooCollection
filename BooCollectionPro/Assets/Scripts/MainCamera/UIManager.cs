@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// 皿オブジェクト（C,L,R）
     /// </summary>
-    [SerializeField] List<GameObject> plateObjs;
+    public List<GameObject> plateObjs;
     /// <summary>
     /// 各皿オブジェクトのAnimator（C,L,R）
     /// </summary>
@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// 現在選択中の皿オブジェクトのインデックス番号
     /// </summary>
-    int selectedPlateIndex;
+    [System.NonSerialized]public int selectedPlateIndex;
 
 
     //コンポーネント----------------------------

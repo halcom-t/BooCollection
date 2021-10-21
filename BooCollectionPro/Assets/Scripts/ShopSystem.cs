@@ -41,10 +41,14 @@ public class ShopSystem : MonoBehaviour
     //コンポーネント-------------------------------------------------
     Animator anim;
 
+    [SerializeField] GameObject Camera;
+    UIManager uiManager;
+
 
     void Awake()
     {
         anim = GetComponent<Animator>();
+        uiManager = Camera.GetComponent<UIManager>();
 
         //ショップのコンテンツUI作成
         CreateShopContentUI();
@@ -123,8 +127,14 @@ public class ShopSystem : MonoBehaviour
     /// <param name="tapCellObj">タップしたセル</param>
     public void OnShopCell(GameObject tapCellObj)
     {
-        //テスト
-        Debug.Log(tapCellObj.transform.Find("NameText").GetComponent<Text>().text);
+        //tapCellObj.transform.Find("FoodImage").GetComponent<Image>()
+
+        //選択中の皿オブジェクト取得
+        GameObject selectedPlate = uiManager.plateObjs[uiManager.selectedPlateIndex];
+
+        //皿に食べ物を表示
+        Sprite selectFood = tapCellObj.transform.Find("FoodImage").GetComponent<Image>().sprite;
+        selectedPlate.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = selectFood;
     }
 
 }
