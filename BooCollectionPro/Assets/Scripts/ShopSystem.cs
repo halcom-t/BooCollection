@@ -127,14 +127,23 @@ public class ShopSystem : MonoBehaviour
     /// <param name="tapCellObj">タップしたセル</param>
     public void OnShopCell(GameObject tapCellObj)
     {
-        //tapCellObj.transform.Find("FoodImage").GetComponent<Image>()
-
         //選択中の皿オブジェクト取得
         GameObject selectedPlate = uiManager.plateObjs[uiManager.selectedPlateIndex];
 
         //皿に食べ物を表示
         Sprite selectFood = tapCellObj.transform.Find("FoodImage").GetComponent<Image>().sprite;
-        selectedPlate.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = selectFood;
+
+        //皿に乗っている食べ物と同じ食べ物のセルをクリックしたら
+        if (selectedPlate.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == selectFood)
+        {
+            //食べ物画像を皿から消す
+            selectedPlate.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+        }
+        else
+        {
+            //タップしたセルの食べ物画像を設定
+            selectedPlate.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = selectFood;
+        }
     }
 
 }
